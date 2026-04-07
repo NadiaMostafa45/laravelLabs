@@ -3,56 +3,60 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostController extends Controller
 {
-   
+
+
     public function index()
     {
-        $posts = [
-            ['id' => 1, 'title' => 'First Post', 'content' => 'Content 1'],
-            ['id' => 2, 'title' => 'Second Post', 'content' => 'Content 2'],
-            ['id' => 3, 'title' => 'Third Post', 'content' => 'Content 3'],
-        ];
-
+        $posts = Post::all();
         return view('posts.index', compact('posts'));
     }
 
- 
+
     public function create()
     {
         return view('posts.create');
     }
 
-   
+
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'title' => 'required|min:3|unique:posts,title',
+            'content' => 'required|min:10',
+        ]);
+        Post::create($request->all());
         return redirect()->route('posts.index');
     }
 
- 
-    public function edit($id)
+
+    public function edit(Post $post)
     {
-        $posts = [
-            ['id' => 1, 'title' => 'First Post', 'content' => 'Content 1'],
-            ['id' => 2, 'title' => 'Second Post', 'content' => 'Content 2'],
-            ['id' => 3, 'title' => 'Third Post', 'content' => 'Content 3'],
-        ];
-
-        $post = collect($posts)->firstWhere('id', $id);
-
         return view('posts.edit', compact('post'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
+        $request->validate([
+            'title' => 'required|min:3|unique:posts,title,' . $post->id,
+            'content' => 'required|min:10',
+        ]);
+        $post->update($request->all());
         return redirect()->route('posts.index');
     }
 
-  
-    public function destroy($id)
+
+    public function destroy(Post $post)
     {
+        $post->delete();
+        return redirect()->route('posts.index');
+    }
+    public function restore(Post $post, $id )
+    {
+        Post::withoutTrashed()->find($id)->restore();
         return redirect()->route('posts.index');
     }
 }

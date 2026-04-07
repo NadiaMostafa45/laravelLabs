@@ -21,15 +21,15 @@
         <div class="card mb-3 shadow-sm">
             <div class="card-body">
 
-                <h5 class="card-title">{{ $post['title'] }}</h5>
-                <p class="card-text">{{ $post['content'] }}</p>
+                <h5 class="card-title">{{ $post->title }}</h5>
+                <p class="card-text">{{ $post->content }}</p>
 
                 <div class="d-flex gap-2">
-                    <a href="{{ route('posts.edit', $post['id']) }}" class="btn btn-warning btn-sm">
-                        Edit
+                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning btn-sm">
+                            Edit
                     </a>
 
-                    <form action="{{ route('posts.destroy', $post['id']) }}" method="POST">
+                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm"
