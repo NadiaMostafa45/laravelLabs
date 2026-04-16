@@ -20,7 +20,11 @@
     @foreach($posts as $post)
         <div class="card mb-3 shadow-sm">
             <div class="card-body">
-
+                <div>
+                @if($post->image)
+                    <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}" class="img-fluid mb-3">
+                @endif
+                </div>
                 <h5 class="card-title">{{ $post->title }}</h5>
                 <p class="card-text">{{ $post->content }}</p>
 

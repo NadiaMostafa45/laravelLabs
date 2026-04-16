@@ -31,7 +31,7 @@
                     <textarea name="content" class="form-control" rows="4"
                         placeholder="Enter content">{{ $post['content'] }}</textarea>
                 </div>
-
+                  
 
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('posts.index') }}" class="btn btn-secondary">Back</a>
